@@ -163,7 +163,7 @@ public class ChatManager : MonoBehaviour
             gameObject.AddComponent<UnityMainThreadDispatcher>();
 
         // Conexión WebSocket
-        ws = new WebSocket("ws://ucn-game-server.martux.cl:4010/?gameId=F&playerName=ElNochi2");
+        ws = new WebSocket("ws://ucn-game-server.martux.cl:4010/?gameId=F&playerName=ElNochi33");
         ws.OnOpen += OnWebSocketOpen;
         ws.OnMessage += OnWebSocketMessage;
         ws.Connect();
@@ -537,10 +537,22 @@ public class ChatManager : MonoBehaviour
                     else if (debuffCode == 2) debuff = "auto-damage";
                     else if (debuffCode == 3) debuff = "downgrade-skill";
 
-                    Debug.Log("Haz recibido un debuff");
-                    AplicarDebuff(debuff);
-                    ActualizarChatUI();
+                    Debug.Log("Haz recibido un debuff: " + debuff);
 
+                    // Aplicar el debuff
+                    AplicarDebuff(debuff);
+
+                    // Mostrar el mensaje en la GameplayScene
+                    if (DebuffManager.Instance != null)
+                    {
+                        DebuffManager.Instance.ShowDebuff(debuff);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("DebuffManager no está disponible para mostrar el debuff");
+                    }
+
+                    ActualizarChatUI();
                 }
                 else if (serverMessage.eventName == "game-ended")
                 {
@@ -838,11 +850,13 @@ public class ChatManager : MonoBehaviour
         else if (tipo == "auto-damage" && autoDamageDebuffSO != null)
         {
             autoDamageDebuffSO.Apply(player);
+
             Debug.Log("Debuff enviado");
         }
         else if (tipo == "downgrade-skill" && downgradeSkillDebuffSO != null)
         {
             downgradeSkillDebuffSO.Apply(player);
+
             Debug.Log("Debuff enviado");
         }
         else
@@ -850,6 +864,7 @@ public class ChatManager : MonoBehaviour
             Debug.LogWarning("Debuff no reconocido o ScriptableObject no asignado: " + tipo);
         }
     }
+
 
     public void FinalizarPartida()
     {
@@ -921,13 +936,6 @@ public class ChatManager : MonoBehaviour
 
         SceneManager.LoadScene("MainMenu");
     }
-
-
-
-
-
-
-
 
 
 

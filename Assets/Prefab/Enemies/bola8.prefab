@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3838db1ae8bdf649ba25d72b3e1f05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 999
+  hp: 300
   damage: 1
   speed: 1.5
   chargeSpeed: 4
