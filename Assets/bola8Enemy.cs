@@ -84,7 +84,7 @@ public class EnemyBola8 : MonoBehaviour, IEnemy
     {
         chargeTime -= Time.fixedDeltaTime;
         rb.linearVelocity = chargeDirection * chargeSpeed;
-        SoundManager.Instance.PlaySound(attackSound, 0.3f); // volumen al 30%
+        SoundManager.Instance.PlaySound(attackSound, 0.2f); // volumen al 30%
         if (chargeTime <= 0)
         {
             isCharging = false;
